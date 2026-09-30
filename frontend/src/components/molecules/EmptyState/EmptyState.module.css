@@ -1,0 +1,24 @@
+.wrapper {
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 22px;
+}
+
+.description {
+  font-size: 14px;
+  max-width: 360px;
+  margin: 0;
+}
+
+.action {
+  margin-top: 10px;
+}

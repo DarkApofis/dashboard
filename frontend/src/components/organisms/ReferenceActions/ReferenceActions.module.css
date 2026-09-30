@@ -1,0 +1,23 @@
+.zone {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 18px;
+}
+
+.simulator {
+  gap: 6px;
+  padding: 12px 14px;
+}
+
+.simulatorButton {
+  align-self: flex-start;
+}
+
+.closed {
+  font-size: 12px;
+  margin: 0;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 14px;
+}

@@ -1,0 +1,22 @@
+.group {
+  flex-wrap: wrap;
+}
+
+/*
+ * The design system styles the active segment through :has(input:checked) on a radio.
+ * These are buttons, because choosing a filter navigates, so the active state is
+ * carried by aria-pressed instead. Same treatment, different mechanism.
+ */
+.option[aria-pressed="true"] {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.option:not([aria-pressed="true"]):hover {
+  background: color-mix(in srgb, var(--color-text) 7%, transparent);
+}
+
+.count {
+  opacity: 0.7;
+  font-size: 11px;
+}

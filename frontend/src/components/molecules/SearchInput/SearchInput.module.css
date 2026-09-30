@@ -1,0 +1,18 @@
+.wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  max-width: 340px;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.input {
+  padding-left: 32px;
+}

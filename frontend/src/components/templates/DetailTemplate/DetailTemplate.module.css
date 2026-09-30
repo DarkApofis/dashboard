@@ -1,0 +1,22 @@
+/*
+ * The design presented the detail as a drawer sliding over the listing, because
+ * everything lived on one screen. Here it is a route of its own, so it can be linked,
+ * reloaded and shared; a dark backdrop over an empty page would be pretending there is
+ * something behind it.
+ *
+ * What is kept is the panel itself: the header band, the hairline frame and the
+ * registration marks, at the drawer's width.
+ */
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.panel {
+  width: min(560px, 100%);
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}

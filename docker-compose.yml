@@ -1,0 +1,109 @@
+# The whole platform from zero: `docker compose up --build`.
+#
+# The startup order is enforced with conditions rather than with sleeps: the API only
+# starts once the migrations have finished, and the frontend only once the API answers
+# its health check. Nothing races.
+
+name: payment-links
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payment_links}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payment_links}
+      POSTGRES_DB: ${POSTGRES_DB:-payment_links}
+    ports:
+      # Exposed so the tests and psql can reach it from the host. Remove in a real
+      # deployment: nothing outside this network needs it.
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      # -U and -d matter: the default pg_isready probe passes while the database the
+      # application needs is still being created.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-payment_links} -d ${POSTGRES_DB:-payment_links}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  # Runs the schema migrations once and exits. A separate service, so the API never
+  # needs DDL privileges and two API replicas cannot migrate at the same time.
+  migrate:
+    image: migrate/migrate:v4.17.1
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/migrations:/migrations:ro
+    command:
+      - "-path=/migrations"
+      - "-database=postgres://${POSTGRES_USER:-payment_links}:${POSTGRES_PASSWORD:-payment_links}@db:5432/${POSTGRES_DB:-payment_links}?sslmode=disable"
+      - "up"
+    restart: on-failure
+
+  # Loads the demo businesses. The spec defines no endpoint for creating them, so they
+  # are seeded; the script is idempotent, so restarting the stack inserts nothing.
+  seed:
+    image: postgres:17-alpine
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - ./backend/seeds:/seeds:ro
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-payment_links}
+    command: >
+      psql -h db -U ${POSTGRES_USER:-payment_links} -d ${POSTGRES_DB:-payment_links}
+      -v ON_ERROR_STOP=1 -f /seeds/001_businesses.sql
+
+  api:
+    build:
+      context: ./backend
+      args:
+        VERSION: ${VERSION:-docker}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      seed:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-payment_links}:${POSTGRES_PASSWORD:-payment_links}@db:5432/${POSTGRES_DB:-payment_links}?sslmode=disable
+      PORT: "8080"
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+      # Empty disables HMAC verification on the webhook, which is what makes the curl
+      # examples in the README and `make webhook-demo` work out of the box.
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_FORMAT: ${LOG_FORMAT:-json}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_PAYMENT_LINK_BASE: ${NEXT_PUBLIC_PAYMENT_LINK_BASE:-https://pay.example.com/r}
+        NEXT_PUBLIC_ENABLE_WEBHOOK_SIMULATOR: ${NEXT_PUBLIC_ENABLE_WEBHOOK_SIMULATOR:-true}
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      # Read at runtime by the server components. The browser never calls the API
+      # directly, so this stays inside the compose network.
+      API_URL: http://api:8080
+      PORT: "3000"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    restart: unless-stopped
+
+volumes:
+  db-data:

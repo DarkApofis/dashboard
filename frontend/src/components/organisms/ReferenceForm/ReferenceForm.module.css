@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summaryError {
+  font-size: 13px;
+  color: var(--color-accent-700);
+  border: 1px solid var(--color-accent-700);
+  padding: 8px 10px;
+}

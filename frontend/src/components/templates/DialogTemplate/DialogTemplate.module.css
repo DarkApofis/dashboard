@@ -1,0 +1,15 @@
+/*
+ * The design opened the create form as a modal over the listing, because everything
+ * lived on one screen. It is a route here, so there is nothing behind it: a dimmed
+ * backdrop would be pretending otherwise.
+ *
+ * What is kept is the dialog object itself — the framed panel at its width, centred on
+ * the page — and the escape route back to the listing.
+ */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+}

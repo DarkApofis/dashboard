@@ -1,0 +1,26 @@
+.xs {
+  font-size: 12px;
+}
+
+.sm {
+  font-size: 13px;
+}
+
+.md {
+  font-size: 14px;
+}
+
+.reset {
+  margin: 0;
+}
+
+/* Digits that line up in a column, for money and ids. */
+.numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The condensed, letterspaced treatment the design uses for API strings. */
+.technical {
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+}

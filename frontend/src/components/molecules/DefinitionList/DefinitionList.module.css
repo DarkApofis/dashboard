@@ -1,0 +1,19 @@
+.list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px 18px;
+  font-size: 14px;
+}
+
+.term {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+.value {
+  margin: 0;
+}

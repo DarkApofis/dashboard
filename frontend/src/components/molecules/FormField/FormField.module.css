@@ -1,0 +1,12 @@
+.error {
+  font-size: 12px;
+  /* The system requires a deep ramp step for small text in the accent, not the
+     accent itself, which only reaches 3:1 against this ground. */
+  color: var(--color-accent-700);
+  margin-top: 4px;
+}
+
+.hint {
+  font-size: 12px;
+  margin-top: 4px;
+}

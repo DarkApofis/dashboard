@@ -1,0 +1,26 @@
+.header {
+  border-bottom: 1px solid var(--color-divider);
+  padding: 10px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The brand mark: a hairline square turned on its point. */
+.mark {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-accent);
+  transform: rotate(45deg);
+}
+
+.meta {
+  font-size: 12px;
+  font-family: var(--font-heading);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

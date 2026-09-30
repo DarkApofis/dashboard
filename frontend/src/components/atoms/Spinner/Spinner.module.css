@@ -1,0 +1,24 @@
+/*
+ * The design system has no spinner, so this one is drawn in its grammar: a square
+ * hairline outline with one accented edge, rotating. No curves, no filled dots.
+ */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--color-divider);
+  border-top-color: var(--color-accent);
+  animation: spin 0.8s linear infinite;
+}
+
+.large {
+  width: 22px;
+  height: 22px;
+  border-width: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,30 @@
+/* Sizes beyond the design system scale, used by the dashboard screens. */
+.display {
+  font-size: 38px;
+}
+
+.figure {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 30px;
+  line-height: 1;
+  margin: 0;
+}
+
+.figureLarge {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 34px;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.kicker {
+  color: var(--color-accent);
+  margin: 0 0 4px;
+}
+
+.reset {
+  margin: 0;
+}

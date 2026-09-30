@@ -1,0 +1,12 @@
+# Normalise every text file to LF in the working tree.
+#
+# Without this, a clone on Windows with core.autocrlf=true turns scripts/webhook-demo.sh
+# into CRLF and `sh` fails on the carriage returns — which is the first thing a reviewer
+# runs. Dockerfiles and SQL have the same problem inside Linux containers.
+* text=auto eol=lf
+
+*.sh      text eol=lf
+*.sql     text eol=lf
+*.go      text eol=lf
+Dockerfile text eol=lf
+Makefile  text eol=lf

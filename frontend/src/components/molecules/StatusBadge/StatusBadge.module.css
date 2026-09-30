@@ -1,0 +1,25 @@
+/*
+ * Four states told apart on a deliberately mono palette.
+ *
+ * The design system offers accent / neutral / outline tints, and the reference design
+ * gave expired and cancelled the same neutral one. Four distinguishable badges are a
+ * requirement here, so expired and cancelled are separated by border and weight rather
+ * than by a hue the system does not have. Every value still comes from the ramps.
+ */
+.expired {
+  background: transparent;
+  color: var(--color-neutral-700);
+  border: 1px dashed var(--color-neutral-400);
+}
+
+.cancelled {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-600);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.large {
+  font-size: 12px;
+  padding: 5px 12px;
+}

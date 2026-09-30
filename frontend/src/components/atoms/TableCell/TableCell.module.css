@@ -1,0 +1,27 @@
+.cell {
+  vertical-align: top;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.dense {
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+}
+
+.right {
+  text-align: right;
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.header {
+  white-space: nowrap;
+}
